@@ -18,12 +18,27 @@ let fossilDataArray = [];
 let parkDataArray = [];
 let topFiveParks = [];
 
+function exitMoreInfoScreen(event){
+  $('#results.moreInfo').hide();
+  $('.moreInfoShow').remove();
+  $('#map_section').show();
+  $('#searchForm').show();
+}
+
 function displayMoreInfoParks(event){
-  $('#results.moreInfo').remove();
+  console.log(event);
+  $('#results.moreInfo').empty().show();
   $(this).addClass('testingBox');
   $('#map_section').hide();
   $('#searchForm').hide();
-  $('#results_moreInfo').append("<div class='moreInfoExitButton role='button' value='exit'>Take me back to the map!></button><h1>Let's see if this works!</p>");
+  $('#results_moreInfo').html("<div class='moreInfoShow'></div>");
+  $('.moreInfoShow').html("<button class='moreInfoExitButton role='button' value='exit'>Take me back to the map!</button>");
+  $('.moreInfoShow').append(`${$(this).innerHTML}`);
+  $('.moreInfoShow').on('click', '.moreInfoExitButton', exitMoreInfoScreen);
+}
+
+function createMoreInfoListener(){
+  $('#results').on('click', '.result_block', displayMoreInfoParks);
 }
 
 function parksInfoWindowContent(object){
@@ -31,7 +46,7 @@ function parksInfoWindowContent(object){
   <h1 class="fossilHeading">${object.mapsData.name}</h1>
   <h2>${object.mapsData.vicinity}</h2>
   <h2>Fossil Collections Found Near the Area:</h2>
-  <p>Learn more...</p></div>`
+  <a href="javascript:displayMoreInfoParks(object)">Learn more...</a></div>`
 }
 
 function createParksMarkerListener(marker, object){
@@ -68,10 +83,10 @@ function displayRecommendedPark(){
     $('#results').append(`<div class='recommendedPark'></div>`);
     topFiveParks.forEach(object=>{
       if(object.fossilData.length > 0){
-        $('.recommendedPark').append(`<a href='javascript:displayMoreInfoParks(result_block${topFiveParks.indexOf(object)})' class='result_block result_block${topFiveParks.indexOf(object)}'><h1>${object.mapsData.name}</h1><h2>${object.mapsData.vicinity}</h2><h2>Fossil Collections Found Near the Area: ${object.fossilData.length}</h2><p>See more...</p></a>`);
+        $('.recommendedPark').append(`<button role='button' class='result_block'><h1>${object.mapsData.name}</h1><h2>${object.mapsData.vicinity}</h2><h2>Fossil Collections Found Near the Area: ${object.fossilData.length}</h2><p>See more...</p></button>`);
       }
       else{
-        $('.recommendedPark').append(`<a href='javascript:displayMoreInfoParks(result_block_noFossil${topFiveParks.indexOf(object)})'class='result_block_noFossil result_block_noFossil(${topFiveParks.indexOf(object)})'><h1>${object.mapsData.name}</h1><h2>${object.mapsData.vicinity}</h2></a>`);
+        $('.recommendedPark').append(`<button role='button' class='result_block_noFossil'><h1>${object.mapsData.name}</h1><h2>${object.mapsData.vicinity}</h2></button>`);
       }
   });
   }
@@ -423,7 +438,8 @@ function stylingChangesandPageReset(){
   $('fieldset').addClass('searchFormFieldset');
   $("button[type='submit']").addClass('submitButton');
   $('.introduction_firstPage').hide();
-  $('.recommendedPark').empty();
+  $('#results').empty();
+  $('#results_moreInfo').empty();
   $('input[name="searchInputRadius"]').val('');
 }
 
