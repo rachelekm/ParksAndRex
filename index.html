@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>repl.it</title>
+    <link href="index.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.css" rel="stylesheet">
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1wyBz2adyJzK2rAh5LnREqIAwDCmy8Xs&libraries=places,geometry"></script>
+  </head>
+  <body>
+    <section role="main" id="container">
+      <section class="introduction_firstPage">
+        <h1>This is the coolest website you've ever been to! Type in your address and your preferred search radius to find local fossil occurences and recommended public parks to start collecting:</h1>
+      </section>
+    <section id="searchForm">
+      <form class="userAddressSearch">
+      <fieldset>
+        <legend>Search for Fossils Nearby!
+        <input type='text' name='searchInput' placeholder='Street Adress, City, State' required></legend>
+        <legend>Choose a search radius:
+        <input list="radius_Options" name="searchInputRadius" placeholder="10 miles" required>
+          <datalist id="radius_Options">
+            <option value="5 miles" placeholder>5 miles</option>
+            <option value="10 miles">10 miles</option>
+            <option value="25 miles">25 miles</option>
+            <option value="50 miles">50 miles</option>
+            <option value="75 miles">75 miles</option>
+          </datalist>
+          </legend>
+      </fieldset>
+      <button role="button" type="submit">Submit</button>
+    </form>
+    </section>
+     <section id='map_section'>
+        <div id='mapDisplay'>
+        </div>
+      </section>  
+    <section id='results'>
+    </section>
+    <section id='results_moreInfo'>
+    </section>
+    </section> 
+    <script src="index.js"></script>
+  </body>
+</html>
