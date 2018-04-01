@@ -256,12 +256,12 @@ background-color: white;
 	padding-left: 0;
 }
 
-@media only screen and (min-width: 500px) {
-/*
+/*@media only screen and (min-width: 500px) {
+	
 #searchForm{
 	margin-left: 5%;
 }
-*/
+
 input[type="text"] {
 	max-width: 700px;
 }
@@ -361,4 +361,4 @@ input[name='showMoreFossilsToggle'] {
 	width: 90%;
 }
 
-}
+}*/
