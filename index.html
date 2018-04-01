@@ -11,18 +11,21 @@
   integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
   crossorigin="anonymous"></script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1wyBz2adyJzK2rAh5LnREqIAwDCmy8Xs&libraries=places,geometry"></script>
+  <link href="https://fonts.googleapis.com/css?family=Nunito|Varela+Round" rel="stylesheet">
   </head>
-  <body>
+  <body class="firstpageBackground">
     <section role="main" id="container">
       <section class="introduction_firstPage">
-        <h1>This is the coolest website you've ever been to! Type in your address and your preferred search radius to find local fossil occurences and recommended public parks to start collecting:</h1>
+        <img class='ParksandRexLogo' src="https://i.imgur.com/MDdBxCE.png?1" alt="Parks and Rex Logo Image">
+        <h1>PARKS & REX</h1>
+        <h2>Search local parks for fossil collecting:</h2>
       </section>
     <section id="searchForm">
       <form class="userAddressSearch">
-      <fieldset>
-        <legend>Search for Fossils Nearby!
+      <fieldset class="searchFormFieldset">
+        <legend>
         <input type='text' name='searchInput' placeholder='Street Adress, City, State' required></legend>
-        <legend>Choose a search radius:
+        <legend>Search radius:
         <input list="radius_Options" name="searchInputRadius" placeholder="10 miles" required>
           <datalist id="radius_Options">
             <option value="5 miles" placeholder>5 miles</option>
@@ -33,7 +36,7 @@
           </datalist>
           </legend>
       </fieldset>
-      <button role="button" type="submit">Submit</button>
+      <button role="button" type="submit" class="submitButton">Submit</button>
     </form>
     </section>
      <section id='map_section'>
