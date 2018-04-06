@@ -1,13 +1,5 @@
 'strict mode';
 
-/*Notes:
-  //change datalist form to a select form
-  //finish coding the interactivity of non-fossil parks
-  //change display of fossil more info when clicked
-  //find problem with google maps circle creator
-  //get parsed text for mediaWiki instead of framebox
- */
-
 const geocoderURL = 'https://maps.googleapis.com/maps/api/geocode/json';
 const googlePlacesAPIURL = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
 const googleAPIKey = 'AIzaSyB1wyBz2adyJzK2rAh5LnREqIAwDCmy8Xs';
@@ -43,16 +35,12 @@ function wikiBackupSearch(searchTerm){
 }
 
 function refinePageTitle(title){
-  console.log(title);
   if(title.includes(' ')){
     let strings = title.split(' ');
-    console.log(strings);
     if(strings[0] !== "Early"){
-      console.log(strings[0]);
       return strings[0];
     }
     else{
-      console.log()
       return strings[1];
     }
   }
@@ -67,7 +55,6 @@ function displayWikiBackup(searchTerm){
 
 
 function displayWikiData(data){
-  console.log(data);
   let newObject= data.query.pages;
   let pageTitle = refinePageTitle(newObject[Object.keys(newObject)[0]].title);
   let wikiExtract = newObject[Object.keys(newObject)[0]].extract;
@@ -126,7 +113,6 @@ function displayWikiButtonInfo(index){
     }
   });
   let finalArray = '';
-  console.log(timePeriodsArray);
   if(timePeriodsArray.length > 1){
     finalArray = timePeriodsArray.filter(function(item, pos, self) {
       return self.indexOf(item) == pos;
@@ -136,7 +122,6 @@ function displayWikiButtonInfo(index){
     finalArray = timePeriodsArray;
   }
   $('.wikiInfoDisplay').append(`<h2>Geologic Time Periods Represented</h2><p>How old are the fossils you'll find:</p>`);
-  console.log(finalArray);
   finalArray.forEach(item=>{
     searchWikiData(item);
   });
@@ -168,11 +153,9 @@ function displayFossilInfo(index){
 }
 
 function displayParksMoreInfo(object){
-  console.log(object);
   let parkCenter = new google.maps.LatLng(object.mapsData.geometry.location.lat(), object.mapsData.geometry.location.lng());
   let userCenter = new google.maps.LatLng(userSearchCENTERCoords);
   let distanceFromSearch = google.maps.geometry.spherical.computeDistanceBetween(userCenter, parkCenter);
-  console.log(distanceFromSearch);
   $('.summaryInfo').append(`<div class='parksMoreInfo'><h2>Distance From You: ${Math.round((distanceFromSearch/1609.34), 3)} miles</h2></div>`);
   if(object.mapsData.opening_hours){
     let openText = 'Currently Closed';
@@ -250,7 +233,6 @@ function displayMoreInfoParks(event){
    }
   else if(event.currentTarget.className === 'result_block_noFossil selectionBox'){
     $('.moreInfoShow').append(`<div class='summaryInfo'><h1>${event.currentTarget.firstChild.innerHTML.split('.')[1]}</h1><h2>${parkObject.mapsData.vicinity}</h2></div><div class=ParkInfoDisplay></div>`);
-    console.log(parkObject);
     displayParksMoreInfo(parkObject);
   }
   refreshMapView(parkObject);
@@ -362,6 +344,7 @@ function displayRecommendedPark(){
   }
 }
 
+//Sorting by fossil saturation, top 10 parks are displayed
 function sortRecommendedParks(){
   parkDataArray.sort(function(a,b){
     return b.fossilData.length - a.fossilData.length;
@@ -431,6 +414,7 @@ function getParksData_best(object){
   nearbySearchParks(searchQuery);
 }
 
+//Only searching for public parks in search boxes that yield highest fossil saturation
 function findPublicParks(bestSearchArea, secondBestSearchArea){
 getParksData_best(bestSearchArea)
 getParksData_best(secondBestSearchArea);
@@ -556,6 +540,7 @@ function createNewSearchBoxes(centerCoords, radius, searchBounds){
   return newBoxes;
 }
 
+//To better diversify park results, split initial search into 8 smaller search sections
 function splitMapSearch(){
   let halfRadius = radiusMeters/2;
   let searchBox = getBoundingBox(userSearchCENTERCoords, radiusMeters);
@@ -651,6 +636,7 @@ function findFossilData(searchCenter, searchRadius){
   $.getJSON(paleoURL, query, refineFossilData);
 }
 
+//Used to define correct page ids for later display
 function storeWikiData(data){
   data.query.categorymembers.forEach(object=>{
     wikiData.push(object);

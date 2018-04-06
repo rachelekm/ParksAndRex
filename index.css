@@ -1,11 +1,11 @@
 * {
   box-sizing: border-box;
 }
+
 /*color profiles
 dark green: #31523F;
 light green: #94BDAD;
 burnt orange: #F17D40;
-text color on light green background: #182A20;
 */
 
 body {
@@ -38,7 +38,6 @@ body {
 }
 
 .introduction_firstPage h1{
-	/*font-family: 'Chicle', cursive;*/
 	margin-top: 0;
 	margin-bottom: 0;
 	font-size: 40px;
@@ -447,6 +446,7 @@ input[name='showMoreFossilsToggle']:checked + .slider:before {
 }
 
 }
+
 @media only screen and (min-height: 700px) {
 #map_section {
   height: 75vh;

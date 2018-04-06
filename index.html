@@ -7,11 +7,11 @@
     <link href="index.css" rel="stylesheet" type="text/css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.css" rel="stylesheet">
     <script
-  src="https://code.jquery.com/jquery-3.3.1.js"
-  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-  crossorigin="anonymous"></script>
-  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1wyBz2adyJzK2rAh5LnREqIAwDCmy8Xs&libraries=places,geometry"></script>
-<link href="https://fonts.googleapis.com/css?family=Chicle|Roboto:300" rel="stylesheet">
+    src="https://code.jquery.com/jquery-3.3.1.js"
+    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1wyBz2adyJzK2rAh5LnREqIAwDCmy8Xs&libraries=places,geometry"></script>
+    <link href="https://fonts.googleapis.com/css?family=Chicle|Roboto:300" rel="stylesheet">
   </head>
   <body>
     <section role="main" id="container">
@@ -20,14 +20,15 @@
         <h1>PARKS & REX</h1>
         <h2>Search local parks for fossil collecting:</h2>
       </header>
-    <div class="showSearchForm" hidden><button role="button" type="button" class="showSearchFormButton">Edit search <img src="https://i.imgur.com/NDE1kFX.png?1" alt="Button image to open the edit search form window"></button></div>
-    <section class="searchForm">
-      <form class="userAddressSearch">
-      <fieldset class="searchFormFieldset">
-        <legend>
-        <input type='text' name='searchInput' placeholder='Enter your address' required></legend>
-        <legend>
-        <input list="radius_Options" name="searchInputRadius" placeholder="Choose a search radius" required>
+      <div class="showSearchForm" hidden><button role="button" type="button" class="showSearchFormButton">Edit search <img src="https://i.imgur.com/NDE1kFX.png?1" alt="Button image to open the edit search form window"></button></div>
+      <section class="searchForm">
+        <form class="userAddressSearch">
+        <fieldset class="searchFormFieldset">
+          <legend>
+          <input type='text' name='searchInput' placeholder='Enter your address' required>
+          </legend>
+          <legend>
+          <input list="radius_Options" name="searchInputRadius" placeholder="Choose a search radius" required>
           <datalist id="radius_Options">
             <option value="5 miles">5 miles</option>
             <option value="10 miles">10 miles</option>
@@ -36,18 +37,18 @@
             <option value="75 miles">75 miles</option>
           </datalist>
           </legend>
-      </fieldset>
+        </fieldset>
       <button role="button" type="submit" class="submitButton">FIND FOSSILS</button>
-    </form>
+      </form>
     </section>
-     <section id='map_section'>
-        <div id='mapDisplay'>
-        </div>
-      </section>  
+    <section id='map_section'>
+      <div id='mapDisplay'>
+      </div>
+    </section>  
     <section id='results'>
     </section>
-    <section id='results_moreInfo'>
-    </section>
+    <article role='article' id='results_moreInfo'>
+    </article>
     </section> 
     <script src="index.js"></script>
   </body>
