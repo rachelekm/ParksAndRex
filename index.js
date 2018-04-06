@@ -252,7 +252,7 @@ function defaultParkSelection(object){
   else {
   $('.moreInfoShow').append(`<div class='summaryInfo'><h1>${object.mapsData.name}</h1>
     <h2>${object.mapsData.vicinity}</h2></div><div class=ParkInfoDisplay></div>`);
-    displayParksMoreInfo(event);
+    displayParksMoreInfo(object);
   }
 }
 
@@ -315,7 +315,9 @@ function displayRecommendedPark(){
   });
  if(parkDataArray[0].fossilData.length === 0){
     $('#results').html("<h2 class='noresultsText'>Hmm, fossil collecting looks sparse in this area! Increase your search radius to find more fossil occurences or see popular parks below:</h2><div class='recommendedPark'></div>");
+    console.log(parkDataArray);
     parkDataArray.forEach(object=>{
+      console.log(object);
         $('.recommendedPark').append(`<button role='button' class='result_block_noFossil'><h1>${parkDataArray.indexOf(object)+1}. ${object.mapsData.name}</h1></button>`);
         if(parkDataArray.indexOf(object)===0){
           defaultParkSelection(object);
