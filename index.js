@@ -726,7 +726,7 @@ function searchFormSubmitListener(){
     parkDataArray = [];
     userSearchAddress = $('input[name="searchInput"]').val();
     userSearchRadius = $('select[name="searchInputRadius"]').val().split(" ")[0];
-    console.log(userSearchRadius);
+    console.log($('select[name="searchInputRadius"]').val());
     addresstoCoordinates(userSearchAddress);
     stylingChangesandPageReset();
   });
