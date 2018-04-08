@@ -1,3 +1,4 @@
+
 'strict mode';
 
 const geocoderURL = 'https://maps.googleapis.com/maps/api/geocode/json';
@@ -73,6 +74,7 @@ function displayWikiData(data){
       displayWikiBackup(pageTitle);
     }
   }
+  $('.wikiInfoDisplay button:first').focus();
 }
 
 
@@ -144,10 +146,10 @@ function displayFossilInfo(index){
     else{
       fossilLocation = item.nam;
     }
-    $('.fossilInfoDisplay').append(`<div class='fossilCollection ${fossilIteration}'><img class='fossilIcon' src='https://i.imgur.com/ftuGfNv.png?1' alt='Fossil collection image link icon'><h3>Fossil Collection ${fossilIteration}</h3></div><li class='${fossilIteration}' hidden>
-      <ul>Found At or Near: ${fossilLocation}</ul>
-      <ul>Geologic Time Interval: ${item.oei}</ul>
-      <ul>Geologic Time Range: ${item.eag} - ${item.lag} millions years ago</ul></li>`);
+    $('.fossilInfoDisplay').append(`<div class='fossilCollection ${fossilIteration}'><img class='fossilIcon' src='https://i.imgur.com/ftuGfNv.png?1' alt='Fossil collection image link icon'><h3>Fossil Collection ${fossilIteration}</h3></div><ul class='${fossilIteration}' hidden>
+      <li>Found At or Near: ${fossilLocation}</li>
+      <li>Geologic Time Interval: ${item.oei}</li>
+      <li>Geologic Time Range: ${item.eag} - ${item.lag} millions years ago</li></ul>`);
   });
   $('.fossilInfoDisplay').on('click', '.fossilCollection', showMoreFossilInfo);
 }
@@ -217,7 +219,7 @@ function resetSelectionBox(event){
 function displayMoreInfoParks(event){
   resetSelectionBox();
   $(this).addClass('selectionBox');
-  $('#results.moreInfo').empty().show();
+  $('#results_moreInfo').show();
   $('#results_moreInfo').html("<section class='moreInfoShow'></section>");
   let parkIndex = findParkObjectfromEventTarget(event);
   let parkObject = parkDataArray[parkIndex];
@@ -240,7 +242,7 @@ function displayMoreInfoParks(event){
 
 
 function defaultParkSelection(object){
-  $('.recommendedPark button:first').addClass('selectionBox');
+  $('.recommendedPark button:first').addClass('selectionBox').focus();
   $('#results_moreInfo').html("<section class='moreInfoShow'></section>");
   if(object.fossilData.length > 0){
     $('.moreInfoShow').append(`<div class='summaryInfo'><h1>${object.mapsData.name}</h1>
@@ -272,23 +274,11 @@ function showFossilMarkers(event){
 
 }
 
-function parksInfoWindowContent(object){
-  return `<div class='markerContent'>
-  <h1 class="fossilHeading">${parkDataArray.indexOf(object)+1}. ${object.mapsData.name}</h1>
-  <h2>${object.mapsData.vicinity}</h2>
-  <h2>Fossil Collections Found Near the Area: ${object.fossilData.length}</h2></div>`
-}
-
 function createParksMarkerListener(marker, object){
-  let parksInfoWindow = new google.maps.InfoWindow({
-    content: parksInfoWindowContent(object)
-  });
   marker.addListener('click', function(event) {
-      map.setZoom(12);
+      map.setZoom(object.preferredZoom);
       map.setCenter(marker.getPosition());
-    parksInfoWindow.open(map, marker);
   });
-  $(parksInfoWindow).on();
 }
 
 function createParkMarker(object){
@@ -325,11 +315,11 @@ function displayRecommendedPark(){
       });
   }
   else{
-    $('#results').html("<div class='results_text'><legend>VIEW FOSSIL DISCOVERY SITES:   <label class='slider_background'><input type='checkbox' name='showMoreFossilsToggle' aria-checked='false'><span class='slider'></span></label></legend></div><div class='clickMoreInstructions'>Click below to see more info:</div><div class='recommendedPark'></div>");
+    $('#results').html("<div class='results_text'><legend>VIEW FOSSIL DISCOVERY SITES:   <label class='slider_background'><input type='checkbox' name='showMoreFossilsToggle' aria-label='moreFossilsToggle' aria-checked='false'><span class='slider'></span></label></legend></div><div class='clickMoreInstructions'>Click below to see more info:</div><div class='recommendedPark'></div>");
     parkDataArray.forEach(object=>{
       if(object.fossilData.length > 0){
         if(parkDataArray.indexOf(object)===0){
-          $('.recommendedPark').append(`<button role='button' class='result_block'><img src='https://i.imgur.com/MDdBxCE.png?1' class='FirstParkResultLogo' alt='Website logo image for the first result'><h1>${parkDataArray.indexOf(object)+1}. ${object.mapsData.name}</h1><h2>Fossil Collections Found Near the Area: ${object.fossilData.length}</h2><h2 class='bestMatchText'>BEST MATCH</h2></button>`);
+          $('.recommendedPark').append(`<button role='button' class='result_block'><img src='https://i.imgur.com/MDdBxCE.png?1' class='FirstParkResultLogo' alt='Logo image symbol for top recommended park'><h1>${parkDataArray.indexOf(object)+1}. ${object.mapsData.name}</h1><h2>Fossil Collections Found Near the Area: ${object.fossilData.length}</h2><h2 class='bestMatchText'>BEST MATCH</h2></button>`);
           defaultParkSelection(object);
         }
         else {
@@ -575,10 +565,10 @@ function testBoxShape(boxArray){
 function fossilInfoWindowContent(fossilData){
   return `<div class='fossilMarkerContent'><h1 class="fossilHeading">Fossil Collection</h1>
   <h2>Geologic Time Period: ${fossilData.oei}</h2>
-  <li class='fossilMarkerContentList'>
-  <ul>Geologic Time Range: ${fossilData.eag} - ${fossilData.lag} Ma</ul>
-  <ul>Number of Fossils Collected: ${fossilData.noc}</ul>
-  <ul>Found in formation: ${fossilData.sfm}</ul></li>
+  <ul class='fossilMarkerContentList'>
+  <li>Geologic Time Range: ${fossilData.eag} - ${fossilData.lag} Ma</li>
+  <li>Number of Fossils Collected: ${fossilData.noc}</li>
+  <li>Found in formation: ${fossilData.sfm}</li></ul>
   </div>`
 }
 
@@ -708,10 +698,10 @@ function addresstoCoordinates(textAddress){
 
 function stylingChangesandPageReset(){
   $('input[name="searchInputRadius"]').attr('placeholder', $('input[name="searchInputRadius"]').val());
-  $('#map_section').show();
+  $('#map_section').show().children('iframe').attr('aria-label', 'Google Maps Display');
   $('.introduction_firstPage').hide();
   $('#results').empty().show();
-  $('#results_moreInfo').empty().show();
+  $('#results_moreInfo').empty().hide();
   $('input[name="searchInputRadius"]').val('');
   $('.searchForm').addClass('searchFormWindow').hide();
   $('.showSearchForm').show();
@@ -735,7 +725,8 @@ function searchFormSubmitListener(){
     fossilDataArray = [];
     parkDataArray = [];
     userSearchAddress = $('input[name="searchInput"]').val();
-    userSearchRadius = $('input[name="searchInputRadius"]').val().split(" ")[0];
+    userSearchRadius = $('select[name="searchInputRadius"]').val().split(" ")[0];
+    console.log(userSearchRadius);
     addresstoCoordinates(userSearchAddress);
     stylingChangesandPageReset();
   });
