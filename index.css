@@ -51,8 +51,6 @@ body {
 }
 
 .searchForm {
-	padding-top: 5px;
-	padding-bottom: 5px;
 	position: relative;
 	display: inline-block;
 	text-align: center;
@@ -61,7 +59,6 @@ body {
 }
 
 .userAddressSearch {
-	min-width: 300px;
 	position: relative;
 	font-size: 14px;
 	color: white;
@@ -69,13 +66,18 @@ body {
 }
 
 .searchFormFieldset{
-	display: inline-block;
-	text-align: right;
+	-webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    -webkit-padding-before: 0em;
+    -webkit-padding-start: 0em;
+    -webkit-padding-end: 0em;
+    -webkit-padding-after: 0em;
+   	display: inline-block;
 	outline-style: none;
 	border-style: none;
 	width: 70%;
 	max-width: 500px;
-	padding: 0;
+	padding: 0px;
 }
 
 .submitButton{
@@ -88,53 +90,104 @@ body {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 3px;
+	margin-top: 20px;
 	width: 70%;
 	max-width: 500px;
 	height: 39px;
 }
 
 legend {
-	position: relative;
+	margin-top: 20px;
 	width: 100%;
-	margin-top: 3px;
 }
 
-input {
+input[name="searchInput"] {
 	padding: 10px;
-	border-radius: 2px;
+	background-color: #31523F;
+	color: white;
 	border-style: none;
+	border-bottom: 1px solid white;
 	display: inline-block;
 	width: 100%;
 }
 
-.showSearchForm {
-	border-style: none;
-	border-color: none;
-	background-color: #31523F;
+input[name="searchInput"]::placeholder {
+	opacity: 1;
 	color: white;
-	font-weight: lighter;
 }
 
-.showSearchFormButton {
-	border-style: none;
-	border-color: none;
-	background-color: #31523F;
-	color: white;
-	font-weight: lighter;
+input[name="searchInput"]:-webkit-autofill,
+input[name="searchInput"]:-webkit-autofill:hover,
+input[name="searchInput"]:-webkit-autofill:focus,
+input[name="searchInput"]:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: white;
 }
 
-.showSearchForm img{
-	height: 10px;
-	margin-left: 5px;
+input[name="searchInput"]:focus {
+	background-color: #31523F;
+	color: white;
+}
+
+select {
+	-webkit-appearance: none;
+	margin-top: 5px;
+	padding: 10px;
+	 background-color: #31523F;
+	 border-style: none;
+	 border-radius: 0px;
+	 border-bottom: 1px solid white;
+	 color: white;
+	 width: 100%;
 }
 
 .searchFormWindow {
-	position: fixed;
-	top: 20px;
-	background-color: #31523F;
+	position: absolute;
+	width: 45%;
+	max-width: 700px;
+	padding: 5px;
+	top: 10px;
+	left: 40%;
+	color: #31523F;
+	border-radius: 2px;
+	background-color: white;
 }
 
+.searchFormWindow .searchFormFieldset{ 
+	display: block;
+	width: 100%;
+	max-width: 700px;
+}
+
+.searchFormWindow  input[name="searchInput"], 
+.searchFormWindow select {
+    -webkit-text-fill-color: #31523F;
+    color: #31523F;
+    font-size: 10px;
+    padding: 3px;
+    padding-left: 3px;
+    padding-right: 0px;
+    background-color: #DFECE8;
+    border-bottom: 1px #31523F;
+    overflow-x: hidden;
+}
+
+.searchFormWindow legend {
+	margin-top: 5px;
+}
+
+.searchFormWindow input:-webkit-autofill, 
+.searchFormWindow textarea:-webkit-autofill, 
+.searchFormWindow select:-webkit-autofill,
+.searchFormWindow input[name="searchInput"]:focus {
+    -webkit-box-shadow:0 0 0 50px #DFECE8 inset;
+    color: #31523F;
+    -webkit-text-fill-color: #31523F;
+}
+
+.searchFormWindow .submitButton{
+	display: none;
+}
 #map_section {
   width: 100%;
   height: 63vh;
@@ -467,10 +520,28 @@ input[name='showMoreFossilsToggle']:checked + .slider:before {
 
 @media only screen and (min-width: 1023px) {
 
-	.ParksandRexLogo {
-		margin-top: 5%;
+.ParksandRexLogo {
+	margin-top: 5%;
 	width: 100px;
 }
+
+.searchFormWindow {
+	position: absolute;
+	display: inline-block;
+	width: 45%;
+	padding: 0px;
+	top: 10px;
+	left: 20%;
+	color: #31523F;
+	border-radius: 2px;
+	background-color: white;
+}
+
+.searchFormWindow legend{
+	width: 48%;
+	float: left;
+	margin: 1%;
+	position: relative;
 
 #map_section {
   width: 66.66%;

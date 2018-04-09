@@ -259,7 +259,7 @@ function defaultParkSelection(object){
 }
 
 function showFossilMarkers(event){
-  if(event.currentTarget.attributes[2].value === 'false'){
+  if(event.currentTarget.attributes[3].value === 'false'){
     $(this).attr('aria-checked', 'true');
     fossilDataArray.forEach(item =>{
     item.fossilMarker.setMap(map);
@@ -273,6 +273,7 @@ function showFossilMarkers(event){
   }
 
 }
+
 
 function createParksMarkerListener(marker, object){
   marker.addListener('click', function(event) {
@@ -703,14 +704,10 @@ function stylingChangesandPageReset(){
   $('#results').empty().show();
   $('#results_moreInfo').empty().hide();
   $('input[name="searchInputRadius"]').val('');
-  $('.searchForm').addClass('searchFormWindow').hide();
-  $('.showSearchForm').show();
+  $('.searchForm').addClass('searchFormWindow');
 }
 
 function mainPageToggleListeners(){
-  $('.showSearchFormButton').click(event =>{
-    $('.searchForm').toggle();
-  });
   $('#results').on('click', "input[name='showMoreFossilsToggle']", showFossilMarkers);
   $('#results').on('click', '.result_block_noFossil', displayMoreInfoParks);
   $('#results').on('click', '.result_block', displayMoreInfoParks);
@@ -719,15 +716,21 @@ function mainPageToggleListeners(){
   }); 
 }
 
+function submitSearch(event){
+  event.preventDefault();
+  fossilDataArray = [];
+  parkDataArray = [];
+  userSearchAddress = $('input[name="searchInput"]').val();
+  userSearchRadius = $('select[name="searchInputRadius"]').val().split(" ")[0];
+  addresstoCoordinates(userSearchAddress);
+  stylingChangesandPageReset();
+}
+
 function searchFormSubmitListener(){
   $('.userAddressSearch').submit(event => {
-    event.preventDefault();
-    fossilDataArray = [];
-    parkDataArray = [];
-    userSearchAddress = $('input[name="searchInput"]').val();
-    userSearchRadius = $('select[name="searchInputRadius"]').val().split(" ")[0];
-    addresstoCoordinates(userSearchAddress);
-    stylingChangesandPageReset();
+    submitSearch(event);
+    $('.userAddressSearch').on('change', 'select[name="searchInputRadius"]', submitSearch);
+    $('.userAddressSearch').on('change', 'input[name="searchInput"]', submitSearch);
   });
   getWikiData();
   mainPageToggleListeners();

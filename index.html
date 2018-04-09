@@ -21,12 +21,11 @@
         <h2>Search local parks for fossil collecting:</h2>
       </header>
       <section role ='main'>
-        <div class="showSearchForm" hidden><button role="button" type="button" class="showSearchFormButton">Edit search <img src="https://i.imgur.com/NDE1kFX.png?1" alt="Button image to open the edit search form window"></button></div>
         <section class="searchForm">
           <form aria-label='SearchForm' class="userAddressSearch">
             <fieldset class="searchFormFieldset">
             <legend>
-            <input type='text' name='searchInput' aria-label='searchAddressInput' placeholder='Enter your address' required pattern="[^!@$%()/><\][\\\x22;|]+" oninvalid="setCustomValidity('Please match the following format: Street Address City, State')" oninput="setCustomValidity('')">
+            <input type='text' name='searchInput' aria-label='searchAddressInput' placeholder=' Enter your address' required pattern="[^!@$%()/><\][\\\x22;|]+" oninvalid="setCustomValidity('Please match the following format: Street Address City, State')" oninput="setCustomValidity('')">
             </legend>
             <legend>
               <select id="radius_Options" name="searchInputRadius" aria-label='searchRadiusSelection' required>
