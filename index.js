@@ -16,7 +16,6 @@ let geocoder = new google.maps.Geocoder();
 let fossilDataArray = [];
 let parkDataArray = [];
 let wikiData = [];
-let parkMarkersArray = [];
 
 function toggleWikiInfoBox(event){
   let timePeriodEvent = event.currentTarget.innerHTML
@@ -223,12 +222,11 @@ function resetSelectionBox(event){
 }
 
 function displayMoreInfoParks(event){
-  resetSelectionBox();
-  $(this).addClass('selectionBox');
   $('#results_moreInfo').show();
   $('#results_moreInfo').html("<section class='moreInfoShow'></section>");
   let parkIndex = findParkObjectfromEventTarget(event);
   let parkObject = parkDataArray[parkIndex];
+  updateParksSelectionDisplay(parkObject, parkIndex);
   if(event.currentTarget.className === 'result_block selectionBox'){
     if(event.currentTarget.childNodes.length === 4){
     $('.moreInfoShow').append(`<div class='summaryInfo'><h1>${event.currentTarget.childNodes[1].innerHTML.split('.')[1]}</h1><h2>${parkObject.mapsData.vicinity}</h2></div><div class=wikiInfoDisplay></div><div class=fossilInfoDisplay></div>`);
@@ -280,11 +278,24 @@ function showFossilMarkers(event){
 
 }
 
+function updateParksSelectionDisplay(object, index){
+  resetSelectionBox();
+  refreshMapView(object);
+  if($('#results').find("input[name='showMoreFossilsToggle']").attr('aria-checked')==='false'){
+    $('#results').find("input[name='showMoreFossilsToggle']").click();
+  }
+  $(`.recommendedPark button:nth-child(${index+1}`).addClass('selectionBox').focus();
+}
 
 function createParksMarkerListener(marker, object){
   marker.addListener('click', function(event) {
       map.setZoom(object.preferredZoom);
       map.setCenter(marker.getPosition());
+      parkDataArray.forEach((parkObject, index) => {
+        if(parkObject === object){
+          updateParksSelectionDisplay(object, index);
+        }
+      });
   });
 }
 
@@ -302,7 +313,7 @@ function createParkMarker(object){
     customInfo: `${object.mapsData.name}`
   });
   marker.setMap(map);
-  parkMarkersArray.push(marker);
+  object.mapMarker = marker;
   createParksMarkerListener(marker, object);
 }
 
@@ -312,9 +323,7 @@ function displayRecommendedPark(){
   });
  if(parkDataArray[0].fossilData.length === 0){
     $('#results').html("<h2 class='noresultsText'>Hmm, fossil collecting looks sparse in this area! Increase your search radius to find more fossil occurences or see popular parks below:</h2><div class='recommendedPark'></div>");
-    console.log(parkDataArray);
     parkDataArray.forEach(object=>{
-      console.log(object);
         $('.recommendedPark').append(`<button role='button' class='result_block_noFossil'><h1>${parkDataArray.indexOf(object)+1}. ${object.mapsData.name}</h1></button>`);
         if(parkDataArray.indexOf(object)===0){
           defaultParkSelection(object);
@@ -584,14 +593,14 @@ function createFossilMarkerListener(marker, object){
     content: fossilInfoWindowContent(object),
     maxWidth: 200,
   });
+  object.infoWindow = fossilInfoWindow;
   marker.addListener('click', function() {
-      map.setZoom(14);
+    fossilDataArray.forEach(item =>{
+      item.infoWindow.close();
+    });
       map.setCenter(marker.getPosition());
     fossilInfoWindow.open(map, marker);
   });
-  map.addListener(map, "click", function(event) {
-    fossilInfoWindow.close();
-});
 }
 
 function makeFossilMarker(item, lat, lng){
@@ -737,13 +746,19 @@ function mainPageToggleListeners(){
   $('#results').on('click', '.result_block', displayMoreInfoParks);
   $('#results_moreInfo').on('click', '.getWikiDataButton', function(event){ 
     toggleWikiInfoBox(event);
-  }); 
+  });
 }
 
 function submitSearch(event){
   event.preventDefault();
-  $('#loadingIconPage').toggle();
-  setTimeout(loadingIconTimeout, 2500);
+  if(event.type === 'submit'){
+    $('#loadingIconPage').toggle();
+    setTimeout(loadingIconTimeout, 2500);
+  }
+  if(event.type === 'change'){
+    $('#loadingIconPage').toggle();
+    setTimeout(loadingIconTimeout, 1500);
+  }
   fossilDataArray = [];
   parkDataArray = [];
   userSearchAddress = $('input[name="searchInput"]').val();
@@ -753,7 +768,6 @@ function submitSearch(event){
 }
 
 function loadingIconTimeout(){
-    console.log('in here!');
     $("#loadingIconPage").fadeOut("slow");
 }
 

@@ -190,9 +190,12 @@ select {
 	margin-top: 5px;
 }
 
-.searchFormWindow input:-webkit-autofill, 
 .searchFormWindow textarea:-webkit-autofill, 
 .searchFormWindow select:-webkit-autofill,
+.searchFormWindow input[name="searchInput"]:-webkit-autofill,
+.searchFormWindow input[name="searchInput"]:-webkit-autofill:hover,
+.searchFormWindow input[name="searchInput"]:-webkit-autofill:focus,
+.searchFormWindow input[name="searchInput"]:-webkit-autofill:active,
 .searchFormWindow input[name="searchInput"]:focus {
     -webkit-box-shadow:0 0 0 50px #DFECE8 inset;
     color: #31523F;
