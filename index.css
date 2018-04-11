@@ -141,6 +141,20 @@ select {
 	 width: 100%;
 }
 
+#loadingIconPage {
+	z-index: 100;
+	position: absolute;
+	background-color: #31523F;
+	height: 100%;
+	width: 100%;
+}
+
+#loadingIconPage img {
+	position: absolute;
+	top: 43%;
+	left: 43%;
+}
+
 .searchFormWindow {
 	position: absolute;
 	width: 45%;

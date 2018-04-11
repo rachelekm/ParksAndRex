@@ -32,7 +32,10 @@ function wikiBackupSearch(searchTerm){
     exintro: 0,
     titles: searchTerm
   };
-  $.getJSON(wikiAPIURL, searchQuery, displayWikiData);
+  $.getJSON(wikiAPIURL, searchQuery, displayWikiData)
+  .fail(function(){
+    errorPage();
+  });
 }
 
 function refinePageTitle(title){
@@ -87,7 +90,10 @@ function wikiExtractSearch(pageID){
     exintro: 0,
     pageids: pageID
   };
-  $.getJSON(wikiAPIURL, searchQuery, displayWikiData);
+  $.getJSON(wikiAPIURL, searchQuery, displayWikiData)
+  .fail(function(){
+    errorPage();
+  });
 }
 
 function searchWikiData(timePeriod){
@@ -626,7 +632,10 @@ function findFossilData(searchCenter, searchRadius){
     latmax: searchBox.maxLat,
     show: 'coords,class'
   };
-  $.getJSON(paleoURL, query, refineFossilData);
+  $.getJSON(paleoURL, query, refineFossilData)
+  .fail(function(){
+    errorPage();
+  });
 }
 
 //Used to define correct page ids for later display
@@ -645,7 +654,10 @@ function getWikiData(){
     cmlimit: 78,
     format: 'json'
   };
-  $.getJSON(wikiAPIURL, searchQuery, storeWikiData);
+  $.getJSON(wikiAPIURL, searchQuery, storeWikiData)
+  .fail(function(){
+    errorPage();
+  });
 }
 
 function initializeMap(userLocation){
@@ -677,6 +689,15 @@ function warningMessage(searchTerm){
   alert('You put in an incorrect address!');
 }
 
+function errorPage(){
+    $('#map_section').hide();
+    $('.introduction_firstPage').show();
+    $('#results').empty().hide();
+    $('#results_moreInfo').empty().hide();
+    $('.searchForm').removeClass('searchFormWindow');
+    $("section[role='main']").append('<h2>Oh no, looks like something went wrong on our end. Please try your search again.</h2>');
+}
+
 function refineUserSearch(data){
   if(data.status === "ZERO_RESULTS"){
     warningMessage(userSearchAddress);
@@ -694,7 +715,10 @@ function addresstoCoordinates(textAddress){
     address: textAddress,
     key: googleAPIKey
   };
-  $.getJSON(geocoderURL, query, refineUserSearch);
+  $.getJSON(geocoderURL, query, refineUserSearch)
+  .fail(function(){
+    errorPage();
+  });
 }
 
 function stylingChangesandPageReset(){
@@ -718,12 +742,19 @@ function mainPageToggleListeners(){
 
 function submitSearch(event){
   event.preventDefault();
+  $('#loadingIconPage').toggle();
+  setTimeout(loadingIconTimeout, 2500);
   fossilDataArray = [];
   parkDataArray = [];
   userSearchAddress = $('input[name="searchInput"]').val();
   userSearchRadius = $('select[name="searchInputRadius"]').val().split(" ")[0];
   addresstoCoordinates(userSearchAddress);
   stylingChangesandPageReset();
+}
+
+function loadingIconTimeout(){
+    console.log('in here!');
+    $("#loadingIconPage").fadeOut("slow");
 }
 
 function searchFormSubmitListener(){
