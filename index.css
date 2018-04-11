@@ -50,6 +50,11 @@ body {
 	font-weight: lighter;
 }
 
+.errorPage {
+	color: white;
+	font-size: 16px;
+}
+
 .searchForm {
 	position: relative;
 	display: inline-block;
@@ -207,7 +212,7 @@ select {
 }
 #map_section {
   width: 100%;
-  height: 63vh;
+  height: 65vh;
   display:none;
   position: relative;
 }
@@ -290,15 +295,10 @@ input[name='showMoreFossilsToggle']:checked + .slider:before {
 }
 
 .FirstParkResultLogo {
-	height: 80px;
-	margin-top: 3px;
-	margin-right: 3px;
+	width: 35%;
+	margin: 3px;
+	margin-top: 10px;
 	float: right;
-}
-
-.bestMatchText {
-	color: #F17D40;
-	margin-top: 0;
 }
 
 #results {
@@ -330,16 +330,16 @@ input[name='showMoreFossilsToggle']:checked + .slider:before {
 	white-space: nowrap;
 }
 
-.result_block, .result_block_noFossil{
+.result_block, .result_block_noFossil, .result_block_noFossil_All{
 	outline: none;
 	border: none;
 	vertical-align: top;
-	height: 100px;
+	height: 110px;
 	border-radius: 2px;
-	width: 75%;
-	min-width: 125px;
+	width: 85%;
+	min-width: 115px;
 	max-width: 450px;
-	font-size: 38%;
+	font-size: 50%;
 	padding: 10px;
 	padding-left: 15px;
 	margin-left: 3px;
@@ -347,6 +347,10 @@ input[name='showMoreFossilsToggle']:checked + .slider:before {
 	white-space: pre-wrap;
 	text-align: left;
 	background-color: #94BDAD;
+}
+
+.result_block_noFossil_All {
+	height: 75px;
 }
 
 .result_block, .result_block_noFossil h1{
@@ -362,16 +366,51 @@ input[name='showMoreFossilsToggle']:checked + .slider:before {
 	box-shadow: 0 5px 0 #F17D40 inset;
 	border-radius: 2px;
 	background-size: cover;
-	background-color: white;
+	background-color: #DFECE8;
 }
 
 #results_moreInfo {
 	padding: 10px;
 	background-color: white;
 	color: black;
-	position: relative;
+	position: absolute;
 	width: 100%;
-	height: 75%;
+	height: fit-content;
+}
+
+.moreInfoShow{
+	position: relative;
+	margin-top: 15px;
+}
+
+.moreInfoShow h1{
+	font-size: 16px;
+	margin-top: 0;
+}
+
+.backToMapButton {
+	width: 100%;
+	height: 25px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #F17D40;
+	padding: 5px;
+	background-origin: content-box;
+	background-image: url('https://i.imgur.com/NDE1kFX.png?1');
+	background-repeat: no-repeat;
+	transform: rotate(180deg);
+	background-size: contain;
+	background-position: center;
+}
+
+.summaryInfo{
+	font-size: 60%;
+	padding: 10px;
+}
+
+.summaryInfo h1{
+	margin-top: 10px;
 }
 
 .fossilInfoDisplay {
@@ -420,11 +459,6 @@ input[name='showMoreFossilsToggle']:checked + .slider:before {
 	list-style: none;
 	padding-left: 0;
 	font-size: 16px;
-}
-
-.summaryInfo{
-	font-size: 80%;
-	padding: 10px;
 }
 
 .wikiInfoDisplay{
