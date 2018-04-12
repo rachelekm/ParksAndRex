@@ -1,21 +1,21 @@
 
 'strict mode';
 
-const geocoderURL = 'https://maps.googleapis.com/maps/api/geocode/json';
-const googlePlacesAPIURL = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json';
-const googleAPIKey = 'AIzaSyB1wyBz2adyJzK2rAh5LnREqIAwDCmy8Xs';
-const paleoURL = 'https://paleobiodb.org/data1.2/colls/list.json';
-const wikiAPIURL = 'https://en.wikipedia.org/w/api.php';
+const webAPIObject = { geocoderURL: 'https://maps.googleapis.com/maps/api/geocode/json',
+googleAPIKey: 'AIzaSyB1wyBz2adyJzK2rAh5LnREqIAwDCmy8Xs',
+paleoURL: 'https://paleobiodb.org/data1.2/colls/list.json',
+wikiAPIURL: 'https://en.wikipedia.org/w/api.php'
+};
+
+const inputVariables = {};
+
+const dataVariables = {
+fossilDataArray: [],
+parkDataArray: [],
+wikiData: []
+};
 
 let map = '';
-let userSearchAddress = '';
-let userSearchCENTERCoords = '';
-let userSearchRadius =''; //miles
-let radiusMeters = '';
-let geocoder = new google.maps.Geocoder();
-let fossilDataArray = [];
-let parkDataArray = [];
-let wikiData = [];
 
 function toggleWikiInfoBox(event){
   let timePeriodEvent = event.currentTarget.innerHTML
@@ -31,7 +31,7 @@ function wikiBackupSearch(searchTerm){
     exintro: 0,
     titles: searchTerm
   };
-  $.getJSON(wikiAPIURL, searchQuery, displayWikiData)
+  $.getJSON(webAPIObject.wikiAPIURL, searchQuery, displayWikiData)
   .fail(function(){
     errorPage();
   });
@@ -88,7 +88,7 @@ function wikiExtractSearch(pageID){
     exintro: 0,
     pageids: pageID
   };
-  $.getJSON(wikiAPIURL, searchQuery, displayWikiData)
+  $.getJSON(webAPIObject.wikiAPIURL, searchQuery, displayWikiData)
   .fail(function(){
     errorPage();
   });
@@ -96,10 +96,10 @@ function wikiExtractSearch(pageID){
 
 function searchWikiData(timePeriod){
   let wikiCheck = '';
-  for(let i=0; i < wikiData.length; i++){
+  for(let i=0; i < dataVariables.wikiData.length; i++){
     wikiCheck = 0;
-    if(wikiData[i].title.includes(timePeriod)){
-      wikiExtractSearch(wikiData[i].pageid);
+    if(dataVariables.wikiData[i].title.includes(timePeriod)){
+      wikiExtractSearch(dataVariables.wikiData[i].pageid);
       wikiCheck += 1;
       break;
     }
@@ -110,7 +110,7 @@ function searchWikiData(timePeriod){
 }
 
 function displayWikiButtonInfo(index){
-  let timePeriodsArray = parkDataArray[index].fossilData.map(object=>{
+  let timePeriodsArray = dataVariables.parkDataArray[index].fossilData.map(object=>{
     if(object.oei.includes(' ')){
       return object.oei.split(' ')[1];
     }
@@ -141,7 +141,7 @@ function showMoreFossilInfo(event){
 function displayFossilInfo(index){
   $('.fossilInfoDisplay').append('<h1>Fossil Collections Found:</h1>');
   let fossilIteration = 0;
-  parkDataArray[index].fossilData.forEach(item =>{
+  dataVariables.parkDataArray[index].fossilData.forEach(item =>{
     fossilIteration += 1;
     let fossilLocation = '';
     if(item.aka){
@@ -160,7 +160,7 @@ function displayFossilInfo(index){
 
 function displayParksMoreInfo(object){
   let parkCenter = new google.maps.LatLng(object.mapsData.geometry.location.lat(), object.mapsData.geometry.location.lng());
-  let userCenter = new google.maps.LatLng(userSearchCENTERCoords);
+  let userCenter = new google.maps.LatLng(inputVariables.userSearchCENTERCoords);
   let distanceFromSearch = google.maps.geometry.spherical.computeDistanceBetween(userCenter, parkCenter);
   $('.summaryInfo').append(`<div class='parksMoreInfo'><h2>Distance From You: ${Math.round((distanceFromSearch/1609.34), 3)} miles</h2></div>`);
   if(object.mapsData.opening_hours){
@@ -209,7 +209,7 @@ function createCircleOnMap(object){
 }
 
 function refreshMapView(parkObject){
-  parkDataArray.forEach(object =>{
+  dataVariables.parkDataArray.forEach(object =>{
     if(object.parkCircle){
     object.parkCircle.setMap(null);
     }
@@ -227,7 +227,7 @@ function displayMoreInfoParks(event){
   $('#results_moreInfo').show();
   $('#results_moreInfo').html("<button class='backToMapButton'></button><section class='moreInfoShow'></section>");
   let parkIndex = findParkObjectfromEventTarget(event);
-  let parkObject = parkDataArray[parkIndex];
+  let parkObject = dataVariables.parkDataArray[parkIndex];
   updateParksSelectionDisplay(parkObject, parkIndex);
   if(event.currentTarget.className === 'result_block selectionBox'){
     if(event.currentTarget.childNodes.length === 3){
@@ -251,13 +251,13 @@ function displayMoreInfoParks(event){
 function showFossilMarkers(event){
   if(event.currentTarget.attributes[3].value === 'false'){
     $(this).attr('aria-checked', 'true');
-    fossilDataArray.forEach(item =>{
+    dataVariables.fossilDataArray.forEach(item =>{
     item.fossilMarker.setMap(map);
   });
   }
   else {
     $(this).attr('aria-checked', 'false');
-    fossilDataArray.forEach(item =>{
+    dataVariables.fossilDataArray.forEach(item =>{
     item.fossilMarker.setMap(null);
   });
   }
@@ -277,7 +277,7 @@ function createParksMarkerListener(marker, object){
   marker.addListener('click', function(event) {
       map.setZoom(object.preferredZoom);
       map.setCenter(marker.getPosition());
-      parkDataArray.forEach((parkObject, index) => {
+      dataVariables.parkDataArray.forEach((parkObject, index) => {
         if(parkObject === object){
           updateParksSelectionDisplay(object, index);
         }
@@ -304,28 +304,28 @@ function createParkMarker(object){
 }
 
 function displayRecommendedPark(){
-  parkDataArray.forEach(object=>{
+  dataVariables.parkDataArray.forEach(object=>{
     createParkMarker(object);
   });
- if(parkDataArray[0].fossilData.length === 0){
+ if(dataVariables.parkDataArray[0].fossilData.length === 0){
     $('#results').html("<h2 class='noresultsText'>Hmm, fossil collecting looks sparse in this area! Increase your search radius to find more fossil occurences or see popular parks below:</h2><div class='recommendedPark'></div>");
-    parkDataArray.forEach(object=>{
-        $('.recommendedPark').append(`<button role='button' class='result_block_noFossil_All'><h1>${parkDataArray.indexOf(object)+1}. ${object.mapsData.name}</h1></button>`);
+    dataVariables.parkDataArray.forEach(object=>{
+        $('.recommendedPark').append(`<button role='button' class='result_block_noFossil_All'><h1>${dataVariables.parkDataArray.indexOf(object)+1}. ${object.mapsData.name}</h1></button>`);
       });
   }
   else{
     $('#results').html("<div class='results_text'><legend>VIEW FOSSIL DISCOVERY SITES:   <label class='slider_background'><input type='checkbox' name='showMoreFossilsToggle' aria-label='moreFossilsToggle' aria-checked='false'><span class='slider'></span></label></legend></div><div class='clickMoreInstructions'>Click below to see more info:</div><div class='recommendedPark'></div>");
-    parkDataArray.forEach(object=>{
+    dataVariables.parkDataArray.forEach(object=>{
       if(object.fossilData.length > 0){
-        if(parkDataArray.indexOf(object)===0){
-          $('.recommendedPark').append(`<button role='button' class='result_block'><img src='https://i.imgur.com/uFz2Zya.png?1' class='FirstParkResultLogo' alt='Logo image symbol for best match park'><h1>${parkDataArray.indexOf(object)+1}. ${object.mapsData.name}</h1><h2>Fossil Collections Found Near the Area: ${object.fossilData.length}</h2></button>`);
+        if(dataVariables.parkDataArray.indexOf(object)===0){
+          $('.recommendedPark').append(`<button role='button' class='result_block'><img src='https://i.imgur.com/uFz2Zya.png?1' class='FirstParkResultLogo' alt='Logo image symbol for best match park'><h1>${dataVariables.parkDataArray.indexOf(object)+1}. ${object.mapsData.name}</h1><h2>Fossil Collections Found Near the Area: ${object.fossilData.length}</h2></button>`);
         }
         else {
-          $('.recommendedPark').append(`<button role='button' class='result_block'><h1>${parkDataArray.indexOf(object)+1}. ${object.mapsData.name}</h1><h2>Fossil Collections Found Near the Area: ${object.fossilData.length}</h2></button>`);
+          $('.recommendedPark').append(`<button role='button' class='result_block'><h1>${dataVariables.parkDataArray.indexOf(object)+1}. ${object.mapsData.name}</h1><h2>Fossil Collections Found Near the Area: ${object.fossilData.length}</h2></button>`);
         }
       }
       else{
-        $('.recommendedPark').append(`<button role='button' class='result_block_noFossil'><h1>${parkDataArray.indexOf(object)+1}. ${object.mapsData.name}</h1><h2>Fossil Collections Found Near the Area: 0</br>Recommended based on local prominence</h2></button>`);
+        $('.recommendedPark').append(`<button role='button' class='result_block_noFossil'><h1>${dataVariables.parkDataArray.indexOf(object)+1}. ${object.mapsData.name}</h1><h2>Fossil Collections Found Near the Area: 0</br>Recommended based on local prominence</h2></button>`);
       }
   });
   }
@@ -334,34 +334,34 @@ function displayRecommendedPark(){
 
 //Sorting by fossil saturation, top 10 parks are displayed
 function sortRecommendedParks(){
-  parkDataArray.sort(function(a,b){
+  dataVariables.parkDataArray.sort(function(a,b){
     return b.fossilData.length - a.fossilData.length;
   });
-  parkDataArray.splice(10);
+  dataVariables.parkDataArray.splice(10);
   displayRecommendedPark();
 }
 
 function findFossilsNearParks(){
-  parkDataArray.forEach(object=>{
+  dataVariables.parkDataArray.forEach(object=>{
     object.fossilData = [];
-    fossilDataArray.forEach(item =>{
+    dataVariables.fossilDataArray.forEach(item =>{
         let fossilLocation = new google.maps.LatLng(item.lat, item.lng);
         let parklocation = new google.maps.LatLng(object.mapsData.geometry.location.lat(), object.mapsData.geometry.location.lng());
-        if(radiusMeters < 32000){
+        if(inputVariables.radiusMeters < 32000){
           if(google.maps.geometry.spherical.computeDistanceBetween (fossilLocation, parklocation) <= 600){
             object.radiusMeters = 600;
             object.preferredZoom = 15;
             object.fossilData.push(item);
         }
         }
-        if(radiusMeters >= 32000){
+        if(inputVariables.radiusMeters >= 32000){
           if(google.maps.geometry.spherical.computeDistanceBetween (fossilLocation, parklocation) <= 2500){
             object.radiusMeters = 2500;
             object.preferredZoom = 13;
             object.fossilData.push(item);
         }
         }
-        if(radiusMeters >= 80000){
+        if(inputVariables.radiusMeters >= 80000){
           if(google.maps.geometry.spherical.computeDistanceBetween (fossilLocation, parklocation) <= 5000){
             object.radiusMeters = 5000;
             object.preferredZoom = 12;
@@ -374,14 +374,14 @@ function findFossilsNearParks(){
 }
 
 function defineParkResultsSecond(data, status){
-  if(parkDataArray.length === 0 && status === 'ZERO_RESULTS'){
+  if(dataVariables.parkDataArray.length === 0 && status === 'ZERO_RESULTS'){
     errorPageNoParks();
   }
   else {
     data.forEach(object => {
       let newObject = {};
       newObject.mapsData = object;
-      parkDataArray.push(newObject);
+      dataVariables.parkDataArray.push(newObject);
     });
     findFossilsNearParks();
   }
@@ -391,7 +391,7 @@ function defineParkResults(data){
   data.forEach(object => {
       let newObject = {};
       newObject.mapsData = object;
-      parkDataArray.push(newObject);
+      dataVariables.parkDataArray.push(newObject);
   });
 }
 
@@ -412,7 +412,7 @@ function getParksData_best(object, iteration){
   let searchQuery = {
     bounds: bounds,
     type: 'park',
-    key: googleAPIKey
+    key: webAPIObject.googleAPIKey
     };
   nearbySearchParks(searchQuery, iteration);
 }
@@ -448,7 +448,7 @@ function findBestLandAreas(searchData){
 function findFossilSaturation(searchData){
   searchData.forEach(object=>{
     object.fossilCount = 0;
-    fossilDataArray.forEach(item =>{
+    dataVariables.fossilDataArray.forEach(item =>{
         let fossilLocation = new google.maps.LatLng(item.lat, item.lng);
         if(containsLocation(fossilLocation, object.polygonData)){
           object.fossilCount += 1;
@@ -545,9 +545,9 @@ function createNewSearchBoxes(centerCoords, radius, searchBounds){
 
 //To better diversify park results, split initial search into 8 smaller search sections
 function splitMapSearch(){
-  let halfRadius = radiusMeters/2;
-  let searchBox = getBoundingBox(userSearchCENTERCoords, radiusMeters);
-  let newSearchBoxes = createNewSearchBoxes(userSearchCENTERCoords, halfRadius, searchBox);
+  let halfRadius = inputVariables.radiusMeters/2;
+  let searchBox = getBoundingBox(inputVariables.userSearchCENTERCoords, inputVariables.radiusMeters);
+  let newSearchBoxes = createNewSearchBoxes(inputVariables.userSearchCENTERCoords, halfRadius, searchBox);
   findFossilSaturation(testBoxShape(newSearchBoxes));
 }
 
@@ -590,7 +590,7 @@ function createFossilMarkerListener(marker, object){
   });
   object.infoWindow = fossilInfoWindow;
   marker.addListener('click', function() {
-    fossilDataArray.forEach(item =>{
+    dataVariables.fossilDataArray.forEach(item =>{
       item.infoWindow.close();
     });
       map.setCenter(marker.getPosition());
@@ -619,10 +619,10 @@ function makeFossilMarker(item, lat, lng){
 
 function refineFossilData(data){
   data.records.forEach(item => {
-      fossilDataArray.push(item);
+      dataVariables.fossilDataArray.push(item);
       makeFossilMarker(item, item.lat, item.lng);
   });
-    if(fossilDataArray.length == data.records.length){
+    if(dataVariables.fossilDataArray.length == data.records.length){
       splitMapSearch();
     }
 }
@@ -636,7 +636,7 @@ function findFossilData(searchCenter, searchRadius){
     latmax: searchBox.maxLat,
     show: 'coords,class'
   };
-  $.getJSON(paleoURL, query, refineFossilData)
+  $.getJSON(webAPIObject.paleoURL, query, refineFossilData)
   .fail(function(){
     errorPage();
   });
@@ -645,7 +645,7 @@ function findFossilData(searchCenter, searchRadius){
 //Used to define correct page ids for later display
 function storeWikiData(data){
   data.query.categorymembers.forEach(object=>{
-    wikiData.push(object);
+    dataVariables.wikiData.push(object);
   });
 }
 
@@ -658,7 +658,7 @@ function getWikiData(){
     cmlimit: 78,
     format: 'json'
   };
-  $.getJSON(wikiAPIURL, searchQuery, storeWikiData)
+  $.getJSON(webAPIObject.wikiAPIURL, searchQuery, storeWikiData)
   .fail(function(){
     errorPage();
   });
@@ -666,19 +666,19 @@ function getWikiData(){
 
 function initializeMap(userLocation){
   let zoomLevel = '';
-  if(userSearchRadius <= 5){
+  if(inputVariables.userSearchRadius <= 5){
     zoomLevel = 11;
   }
-  else if(userSearchRadius <= 10 ){
+  else if(inputVariables.userSearchRadius <= 10 ){
     zoomLevel = 10;
   }
-  else if(userSearchRadius <= 25){
+  else if(inputVariables.userSearchRadius <= 25){
     zoomLevel = 9;
   }
-  else if(userSearchRadius <= 50){
+  else if(inputVariables.userSearchRadius <= 50){
     zoomLevel = 8;
   }
-  else if(userSearchRadius <= 75){
+  else if(inputVariables.userSearchRadius <= 75){
     zoomLevel = 7;
   }
   let mapOptions = {
@@ -690,7 +690,7 @@ function initializeMap(userLocation){
 }
 
 function errorPageNoParks(){
-  if(fossilDataArray.length > 0){
+  if(dataVariables.fossilDataArray.length > 0){
     $('#results').html("<div class='results_text'><legend>VIEW FOSSIL DISCOVERY SITES:   <label class='slider_background'><input type='checkbox' name='showMoreFossilsToggle' aria-label='moreFossilsToggle' aria-checked='false'><span class='slider'></span></label></legend></div><h2 class='noresultsText'>Oh no! We could not find parks in this area. Explore fossil sites above or please try a new search for public parks.</h2>");
   }
   else{
@@ -718,19 +718,19 @@ function refineUserSearch(data){
     errorPage();
   }
   else {
-  userSearchCENTERCoords = data.results[0].geometry.location;
-  radiusMeters = userSearchRadius*1609.34;
-  initializeMap(userSearchCENTERCoords);
-  findFossilData(userSearchCENTERCoords, radiusMeters);
+  inputVariables.userSearchCENTERCoords = data.results[0].geometry.location;
+  inputVariables.radiusMeters = inputVariables.userSearchRadius*1609.34;
+  initializeMap(inputVariables.userSearchCENTERCoords);
+  findFossilData(inputVariables.userSearchCENTERCoords, inputVariables.radiusMeters);
   }
 }
 
 function addresstoCoordinates(textAddress){
   let query = {
     address: textAddress,
-    key: googleAPIKey
+    key: webAPIObject.googleAPIKey
   };
-  $.getJSON(geocoderURL, query, refineUserSearch)
+  $.getJSON(webAPIObject.geocoderURL, query, refineUserSearch)
   .fail(function(){
     errorPage();
   });
@@ -774,11 +774,11 @@ function submitSearch(event){
     setTimeout(function(){
     $('#loadingIconPage').toggle();
     setTimeout(loadingIconTimeout, 1000);
-    fossilDataArray = [];
-    parkDataArray = [];
-    userSearchAddress = $('input[name="searchInput"]').val();
-    userSearchRadius = $('select[name="searchInputRadius"]').val().split(" ")[0];
-    addresstoCoordinates(userSearchAddress);
+    dataVariables.fossilDataArray = [];
+    dataVariables.parkDataArray = [];
+    inputVariables.userSearchAddress = $('input[name="searchInput"]').val();
+    inputVariables.userSearchRadius = $('select[name="searchInputRadius"]').val().split(" ")[0];
+    addresstoCoordinates(inputVariables.userSearchAddress);
     stylingChangesandPageReset();
     }, 1100);
   }
