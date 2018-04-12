@@ -201,6 +201,7 @@ select {
 .searchFormWindow {
 	position: absolute;
 	width: 75%;
+	min-width: 200px;
 	height: fit-content;
 	padding: 5px;
 	top: 10px;
@@ -604,6 +605,22 @@ input[name='showMoreFossilsToggle']:checked + .slider:before {
 	padding-left: 0;
 }
 
+@media only screen and (min-width: 500px){
+.searchFormWindow .firstPageButtonContainer {
+	margin: 0;
+	padding: 0;
+}
+
+	.ParksandRexLogoButtonNEW {
+	height: 50px;
+}
+
+.result_block, .result_block_noFossil, .result_block_noFossil_All{
+	font-size: 75%;
+}
+
+}
+
 @media only screen and (min-width: 1023px) {
 
 .introduction_firstPage {
@@ -666,7 +683,7 @@ input[name='showMoreFossilsToggle']:checked + .slider:before {
 	bottom: 20px;
 }
 
-.result_block, .result_block_noFossil{
+.result_block, .result_block_noFossil, .result_block_noFossil_All{
 	height: 75%;
 	font-size: 55%;
 }
