@@ -11,12 +11,13 @@ A user submits a search address and preferred search radius on the landing page.
 If no fossil collections have been found in the preferred search radius or there are less than ten parks with fossil occurences, park recommendations are made based on local prominence and distance.
 ## Screenshots
 ### Landing Page:
-![alt text](https://i.imgur.com/phbgHtJ.png?1)
+![alt text](https://i.imgur.com/lbr4uIJ.png)
 ### Park Recommendations and Map View:
-![alt text](https://i.imgur.com/xH1rb1v.png?1)
-### Selecting Park Recommendation (full screen and mobile view):
-![alt text](https://i.imgur.com/bPVUoBP.png?1)
-![alt text](https://i.imgur.com/4krfirp.png?1)
+![alt text](https://i.imgur.com/l7WEvg4.png)
+### Selecting Park Recommendation and Viewing Fossil Details:
+![alt text](https://i.imgur.com/lvYYT4k.png)
+### Mobile Views:
+![alt text](https://i.imgur.com/vE9PiML.jpg)
 ## Technology Used
 * HTML
 * CSS
