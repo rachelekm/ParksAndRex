@@ -772,7 +772,7 @@ function submitSearch(event){
   if(formValidation === 'true'){
     setTimeout(function(){
     $('#loadingIconPage').toggle();
-    setTimeout(loadingIconTimeout, 1000);
+    setTimeout(loadingIconTimeout, 1900);
     dataVariables.fossilDataArray = [];
     dataVariables.parkDataArray = [];
     inputVariables.userSearchAddress = $('input[name="searchInput"]').val();
