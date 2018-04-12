@@ -76,7 +76,6 @@ function displayWikiData(data){
       displayWikiBackup(pageTitle);
     }
   }
- //$('.wikiInfoDisplay button:first').focus();
 }
 
 
@@ -244,7 +243,7 @@ function displayMoreInfoParks(event){
   }
   refreshMapView(parkObject);
   $('html, body').animate({scrollTop: $('#results_moreInfo').offset().top
-            }, 500);
+            }, 0);
 }
 
 function showFossilMarkers(event){
