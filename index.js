@@ -225,7 +225,7 @@ function resetSelectionBox(event){
 
 function displayMoreInfoParks(event){
   $('#results_moreInfo').show();
-  $('#results_moreInfo').html("<button class='backToMapButton'></button><section class='moreInfoShow'></section>");
+  $('#results_moreInfo').html("<button class='backToMapButton' aria-label='backToMap'></button><section class='moreInfoShow'></section>");
   let parkIndex = findParkObjectfromEventTarget(event);
   let parkObject = dataVariables.parkDataArray[parkIndex];
   updateParksSelectionDisplay(parkObject, parkIndex);
@@ -244,8 +244,7 @@ function displayMoreInfoParks(event){
     displayParksMoreInfo(parkObject);
   }
   refreshMapView(parkObject);
-  $('html, body').animate({scrollTop: $('#results_moreInfo').offset().top
-            }, 0);
+  $('html, body').animate({scrollTop: $('#results_moreInfo').offset().top}, 'slow');
 }
 
 function showFossilMarkers(event){

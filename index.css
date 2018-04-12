@@ -64,6 +64,7 @@ body {
 .introduction_firstPage h2{
 	font-size: 14px;
 	font-weight: lighter;
+	color: black;
 }
 
 .errorPage {
