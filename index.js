@@ -765,10 +765,12 @@ function mainPageToggleListeners(){
 
 function submitSearch(event){
   event.preventDefault();
+  let formValidation = 'true';
   $(this).on('invalid', function(){
+    formValidation = 'false';
     errorPage();
   });
-  if($('form').valid()){
+  if(formValidation === 'true'){
     setTimeout(function(){
     $('#loadingIconPage').toggle();
     setTimeout(loadingIconTimeout, 1000);
