@@ -22,15 +22,25 @@ body {
 	width: 100%;
 }
 
-.ParksandRexLogo {
-	margin-top: 5%;
-	width: 50px;
+.firstPageButtonContainer {
+	padding-top: 20px;
+	padding-bottom: 20px;
+	margin-top: 10px;
+	background-color: #31523F;
+	box-shadow: 0px 0px 1px 4px #39634b inset;
 }
 
 .ParksandRexLogoButton {
-	width: 80%;
-	max-width: 300px;
+	height: 45px;
+	display: inline-block;
 	left: 20px;
+}
+
+.ParksandRexLogoButtonNEW {
+	height: 30px;
+	display: inline-block;
+	left: 0px;
+	opacity: 0.5;
 }
 
 .introduction_firstPage{
@@ -65,8 +75,8 @@ body {
 	position: relative;
 	display: inline-block;
 	text-align: center;
-	z-index: 1;
 	width: 100%;
+	z-index: 1;
 }
 
 .userAddressSearch {
@@ -75,10 +85,11 @@ body {
 	font-size: 14px;
 	color: white;
 	background-color: #264030;
-	box-shadow: 0px 0px 4px 5px #4A785D;
+	box-shadow: 0px 0px 5px 4px #4A785D;
 	border-radius: 5px;
 	border-style: 5px;
 	width: 70%;
+	max-width: 500px;
 	margin-left: auto;
 	margin-right: auto;
 }
@@ -96,13 +107,15 @@ body {
 	background-color: #264030;
 	width: 100%;
 	padding: 20px;
+	padding-bottom: 40px;
 }
 
 .submitButton{
 	border: 0;
 	padding: 0;
-	padding-top: 10px;
-	padding-bottom: 20px;
+	height: 100%;
+	padding-left: 30%;
+	padding-right: 30%;
 	margin: 0;
 	border-radius: 2px;
 	color: white;
@@ -110,12 +123,13 @@ body {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 20px;
-	width: 100%;
 	background-color: #31523F;
 }
 
 .submitText {
+	display: inline-block;
+	text-align: left;
+	float: right;
 	margin-top: 10px;
 	font-size: 12px;
 }
@@ -173,14 +187,14 @@ select {
 	z-index: 100;
 	position: absolute;
 	background-color: #31523F;
-	height: 100vh;
-	width: 100vw;
+	height: 100%;
+	width: 100%;
 }
 
 #loadingIconPage img {
 	position: absolute;
-	top: 43%;
-	left: 43%;
+	top: 45vh;
+	left: 45vw;
 }
 
 .searchFormWindow {
@@ -198,6 +212,7 @@ select {
 
 .searchFormWindow .userAddressSearch{
 	width: 100%;
+	max-width: 1300px;
 	background-color: white;
 	border-style: none;
 	border-radius: none;
@@ -206,9 +221,8 @@ select {
 
 .searchFormWindow .searchFormFieldset{ 
 	display: inline-block;
-	width: 100%;
+	width: 85%;
 	float: left;
-	margin-right: 5px;
 	clear: both;
 	max-width: 1000px;
 	background-color: white;
@@ -243,6 +257,22 @@ select {
     -webkit-box-shadow:0 0 0 50px #DFECE8 inset;
     color: #31523F;
     -webkit-text-fill-color: #31523F;
+}
+
+.searchFormWindow .firstPageButtonContainer {
+	padding-top: 0px;
+	padding-bottom: 0px;
+	margin-top: 2vh;
+	margin-left: 5px;
+	background-color: white;
+	box-shadow: none;
+	display: inline-block;
+}
+
+.searchFormWindow .submitButton {
+	background-color: white;
+	padding-left: 0px;
+	padding-right: 0px;
 }
 
 #map_section {
@@ -330,8 +360,10 @@ input[name='showMoreFossilsToggle']:checked + .slider:before {
 }
 
 .FirstParkResultLogo {
-	height: 90%;
+	height: 80%;
+	padding-top: 10px;
 	margin: 3px;
+	margin-left: 5px;
 	float: right;
 }
 
@@ -573,9 +605,18 @@ input[name='showMoreFossilsToggle']:checked + .slider:before {
 
 @media only screen and (min-width: 1023px) {
 
-.ParksandRexLogo {
-	margin-top: 5%;
-	width: 100px;
+.introduction_firstPage {
+	margin-top: 10%;
+}
+
+#loadingIconPage img {
+	position: absolute;
+	top: 48%;
+	left: 49.5%;
+}
+
+.ParksandRexLogoButtonNEW {
+	height: 40px;
 }
 
 .searchFormWindow {
@@ -593,6 +634,11 @@ input[name='showMoreFossilsToggle']:checked + .slider:before {
 	float: left;
 	margin: 1%;
 	position: relative;
+}
+
+.searchFormWindow .firstPageButtonContainer {
+	margin: 0;
+	padding: 0;
 }
 
 .searchFormWindow  input[name="searchInput"], 

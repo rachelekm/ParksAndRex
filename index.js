@@ -170,7 +170,9 @@ function displayParksMoreInfo(object){
     }
     $('.summaryInfo').append(`<h3>${openText}</h3>`);
   }
+  if(object.mapsData.rating){
   $('.summaryInfo').append(`<h3>Rating: ${object.mapsData.rating}</h3>`);
+  }
 }
 
 function findParkObjectfromEventTarget(event){
@@ -704,15 +706,16 @@ function warningMessage(searchTerm){
 function errorPage(){
     $('#map_section').hide();
     $('.introduction_firstPage').show();
-    $('.errorPage').show().html('<h2>Oh no, looks like something went wrong on our end. Please try your search again.</h2>');
+    $('.errorPage').show().html('<h2>Oh no, looks like something went wrong. Please try your search again.</h2>');
     $('#results').empty().hide();
     $('#results_moreInfo').empty().hide();
     $('.searchForm').removeClass('searchFormWindow');
+    $('.ParksandRexLogoButtonNEW').attr('class', 'ParksandRexLogoButton').attr('src', 'https://i.imgur.com/ByGOFOA.png?1');
 }
 
 function refineUserSearch(data){
   if(data.status === "ZERO_RESULTS"){
-    warningMessage(userSearchAddress);
+    errorPage();
   }
   else {
   userSearchCENTERCoords = data.results[0].geometry.location;
@@ -742,6 +745,9 @@ function stylingChangesandPageReset(){
   $('#results_moreInfo').empty().hide();
   $('input[name="searchInputRadius"]').val('');
   $('.searchForm').addClass('searchFormWindow');
+  $('.ParksandRexLogoButton').next().remove();
+  $('.ParksandRexLogoButton').attr('src', 'https://i.imgur.com/ByGOFOA.png?1').attr('class', 'ParksandRexLogoButtonNEW');
+  $('.ParksandRexLogoButtonNEW').attr('src', 'https://i.imgur.com/VGAhWl0.png?2');
 }
 
 function mainPageToggleListeners(){
@@ -759,19 +765,21 @@ function mainPageToggleListeners(){
 
 function submitSearch(event){
   event.preventDefault();
-  setTimeout(function(){
-  if(event.type === 'submit'){
-    $('.userAddressSearch').children('button').hide();
+  $(this).on('invalid', function(){
+    errorPage();
+  });
+  if($('form').valid()){
+    setTimeout(function(){
+    $('#loadingIconPage').toggle();
+    setTimeout(loadingIconTimeout, 1000);
+    fossilDataArray = [];
+    parkDataArray = [];
+    userSearchAddress = $('input[name="searchInput"]').val();
+    userSearchRadius = $('select[name="searchInputRadius"]').val().split(" ")[0];
+    addresstoCoordinates(userSearchAddress);
+    stylingChangesandPageReset();
+    }, 1100);
   }
-  $('#loadingIconPage').toggle();
-  setTimeout(loadingIconTimeout, 1500);
-  fossilDataArray = [];
-  parkDataArray = [];
-  userSearchAddress = $('input[name="searchInput"]').val();
-  userSearchRadius = $('select[name="searchInputRadius"]').val().split(" ")[0];
-  addresstoCoordinates(userSearchAddress);
-  stylingChangesandPageReset();
-  }, 950);
 }
 
 function loadingIconTimeout(){
@@ -780,10 +788,10 @@ function loadingIconTimeout(){
 
 function searchFormSubmitListener(){
   $('.userAddressSearch').submit(event => {
-    $('.ParksandRexLogoButton').attr('src', 'https://i.imgur.com/I8Qf8iP.gif');
+    $('.errorPage').hide();
+    $('.ParksandRexLogoButton').attr('src', 'https://i.imgur.com/6oGT5jx.gif?1');
+    $('.ParksandRexLogoButtonNEW').attr('src', 'https://i.imgur.com/p2EfEtH.gif');
     submitSearch(event);
-    $('.userAddressSearch').on('change', 'select[name="searchInputRadius"]', submitSearch);
-    $('.userAddressSearch').on('change', 'input[name="searchInput"]', submitSearch);
   });
   getWikiData();
   mainPageToggleListeners();
