@@ -9,13 +9,12 @@ dark green: #31523F;
 light green: #94BDAD;
 burnt orange: #F17D40;
 */
-
 body {
 	width: 100vw;
 	height: 100vh;
 	display: inline-block;
 	font-family: 'Roboto', sans-serif;
-	background-color: #31523F;
+	background-color: #599172;
 }
 
 #container {
@@ -25,7 +24,16 @@ body {
 
 .ParksandRexLogo {
 	margin-top: 5%;
-	width: 75px;
+	width: 50px;
+}
+
+.ParksandRexLogoButton {
+	width: 200px;
+	margin-top: -30px;
+	margin-bottom: -10px;
+	margin-left: -10px;
+	margin-right: -10px;
+	left: 20px;
 }
 
 .introduction_firstPage{
@@ -40,13 +48,13 @@ body {
 }
 
 .introduction_firstPage h1{
-	margin-top: 0;
+	margin-top: 10px;
 	margin-bottom: 0;
-	font-size: 40px;
+	font-size: 30px;
 }
 
 .introduction_firstPage h2{
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: lighter;
 }
 
@@ -61,13 +69,22 @@ body {
 	text-align: center;
 	z-index: 1;
 	width: 100%;
+	height: 500px;
 }
 
 .userAddressSearch {
+	background-color: #31523F;
 	position: relative;
 	font-size: 14px;
 	color: white;
-	width: 100%;
+	border-color: #F17D40;
+	box-shadow: 0px 0px 4px 5px #4A785D;
+	border-radius: 5px;
+	border-style: 5px;
+	width: 70%;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 30px;
 }
 
 .searchFormFieldset{
@@ -80,25 +97,26 @@ body {
    	display: inline-block;
 	outline-style: none;
 	border-style: none;
-	width: 70%;
-	max-width: 500px;
-	padding: 0px;
+	height: 200px;
+	width: 100%;
+	padding: 20px;
 }
 
 .submitButton{
-	background-color: #8A370A;
-	border-color: #F17D40;
-	font-size: 20px;
+	border: 0;
+	padding: 0;
+	margin: 0;
 	border-radius: 2px;
 	color: white;
-	position: relative;
+	bottom: -70px;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 20px;
-	width: 70%;
-	max-width: 500px;
-	height: 39px;
+}
+
+.animate{
+	width: 150px;
 }
 
 legend {
@@ -108,6 +126,8 @@ legend {
 
 input[name="searchInput"] {
 	padding: 10px;
+	padding-left: 0;
+	margin-top: 30px;
 	background-color: #31523F;
 	color: white;
 	border-style: none;
@@ -138,12 +158,14 @@ select {
 	-webkit-appearance: none;
 	margin-top: 5px;
 	padding: 10px;
+	padding-left: 0;
 	 background-color: #31523F;
 	 border-style: none;
 	 border-radius: 0px;
 	 border-bottom: 1px solid white;
 	 color: white;
 	 width: 100%;
+	 margin-bottom: 30px;
 }
 
 #loadingIconPage {
@@ -162,33 +184,47 @@ select {
 
 .searchFormWindow {
 	position: absolute;
-	width: 45%;
-	max-width: 700px;
+	width: 75%;
+	height: fit-content;
 	padding: 5px;
 	top: 10px;
-	left: 40%;
+	left: 10px;
 	color: #31523F;
 	border-radius: 2px;
+	box-shadow: 1px 1px 1px 0px silver;
 	background-color: white;
 }
 
-.searchFormWindow .searchFormFieldset{ 
-	display: block;
+.searchFormWindow .userAddressSearch{
 	width: 100%;
-	max-width: 700px;
+	background-color: white;
+	border-style: none;
+	border-radius: none;
+	box-shadow: none;
+}
+
+.searchFormWindow .searchFormFieldset{ 
+	display: inline-block;
+	width: 100%;
+	float: left;
+	margin-right: 5px;
+	clear: both;
+	max-width: 1000px;
+	height: fit-content;
+	padding: 0;
 }
 
 .searchFormWindow  input[name="searchInput"], 
 .searchFormWindow select {
     -webkit-text-fill-color: #31523F;
     color: #31523F;
-    font-size: 10px;
-    padding: 3px;
-    padding-left: 3px;
+    font-size: 12px;
+    padding: 5px;
     padding-right: 0px;
     background-color: #DFECE8;
     border-bottom: 1px #31523F;
     overflow-x: hidden;
+    margin: 0;
 }
 
 .searchFormWindow legend {
@@ -207,9 +243,6 @@ select {
     -webkit-text-fill-color: #31523F;
 }
 
-.searchFormWindow .submitButton{
-	display: none;
-}
 #map_section {
   width: 100%;
   height: 65vh;
@@ -295,9 +328,8 @@ input[name='showMoreFossilsToggle']:checked + .slider:before {
 }
 
 .FirstParkResultLogo {
-	width: 35%;
+	height: 90%;
 	margin: 3px;
-	margin-top: 10px;
 	float: right;
 }
 
@@ -537,36 +569,11 @@ input[name='showMoreFossilsToggle']:checked + .slider:before {
 	padding-left: 0;
 }
 
-@media only screen and (min-height: 570px) {
+@media only screen and (min-height: 600px){
 #map_section {
-  height: 70vh;
+ 	 height: 75vh;
 }
 
-#results_moreInfo {
-	height: 65%;
-}
-
-#results{
-	height: 25%;
-}
-
-}
-
-@media only screen and (min-height: 700px) {
-#map_section {
-  height: 75vh;
-}
-
-.result_block, .result_block_noFossil{
-	height: 170px;
-	font-size: 70%;
-}
-
-.FirstParkResultLogo {
-	height: 100px;
-	margin-top: 10px;
-	margin-right: 10px;
-}
 }
 
 @media only screen and (min-width: 1023px) {
@@ -579,10 +586,8 @@ input[name='showMoreFossilsToggle']:checked + .slider:before {
 .searchFormWindow {
 	position: absolute;
 	display: inline-block;
-	width: 45%;
+	width: 63%;
 	padding: 0px;
-	top: 10px;
-	left: 20%;
 	color: #31523F;
 	border-radius: 2px;
 	background-color: white;
@@ -593,11 +598,13 @@ input[name='showMoreFossilsToggle']:checked + .slider:before {
 	float: left;
 	margin: 1%;
 	position: relative;
+}
 
-#map_section {
-  width: 66.66%;
-  height: 73%;
-  position: absolute;
+.searchFormWindow  input[name="searchInput"], 
+.searchFormWindow select {
+	font-size: 18px;
+	padding: 5px;
+	padding-left: 10px;
 }
 
 #mapDisplay {
@@ -663,26 +670,12 @@ input[name='showMoreFossilsToggle']:checked + .slider:before {
 
 #results_moreInfo {
 	position: absolute;
+	z-index: 99;
 	width: 33%;
 	height: 73vh;
 	overflow-y: scroll;
 	right:0;
+	top: 0;
 	padding-left: 10px;
 }
-}
-
-@media only screen and (max-height: 800px) and (min-width: 1023px) {
-.result_block, .result_block_noFossil{
-	height: 65%;
-	font-size: 45%;
-}
-
-.FirstParkResultLogo {
-	height: 60px;
-}
-
-.results_text legend {
-	margin-top: 5px;
-}
-
 }

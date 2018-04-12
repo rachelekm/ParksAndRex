@@ -682,6 +682,7 @@ function initializeMap(userLocation){
   }
   let mapOptions = {
       center: userLocation,
+      mapTypeControl: false,
       zoom: zoomLevel
   };
   map = new google.maps.Map(document.getElementById('mapDisplay'), mapOptions);
@@ -734,6 +735,7 @@ function addresstoCoordinates(textAddress){
 }
 
 function stylingChangesandPageReset(){
+  $('body').css('background-color', '#31523F');
   $('input[name="searchInputRadius"]').attr('placeholder', $('input[name="searchInputRadius"]').val());
   $('#map_section').show().children('iframe').attr('aria-label', 'Google Maps Display');
   $('.introduction_firstPage').hide();
@@ -758,20 +760,19 @@ function mainPageToggleListeners(){
 
 function submitSearch(event){
   event.preventDefault();
+  setTimeout(function(){
   if(event.type === 'submit'){
-    $('#loadingIconPage').toggle();
-    setTimeout(loadingIconTimeout, 2500);
+    $('.userAddressSearch').children('button').hide();
   }
-  if(event.type === 'change'){
-    $('#loadingIconPage').toggle();
-    setTimeout(loadingIconTimeout, 1500);
-  }
+  $('#loadingIconPage').toggle();
+  setTimeout(loadingIconTimeout, 1500);
   fossilDataArray = [];
   parkDataArray = [];
   userSearchAddress = $('input[name="searchInput"]').val();
   userSearchRadius = $('select[name="searchInputRadius"]').val().split(" ")[0];
   addresstoCoordinates(userSearchAddress);
   stylingChangesandPageReset();
+  }, 950);
 }
 
 function loadingIconTimeout(){
@@ -780,6 +781,7 @@ function loadingIconTimeout(){
 
 function searchFormSubmitListener(){
   $('.userAddressSearch').submit(event => {
+    $('.ParksandRexLogoButton').attr('src', 'https://i.imgur.com/I8Qf8iP.gif');
     submitSearch(event);
     $('.userAddressSearch').on('change', 'select[name="searchInputRadius"]', submitSearch);
     $('.userAddressSearch').on('change', 'input[name="searchInput"]', submitSearch);
